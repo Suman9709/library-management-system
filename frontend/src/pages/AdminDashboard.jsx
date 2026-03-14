@@ -97,6 +97,7 @@ const AdminDashboard = () => {
               key={book._id}
               title={book.title}
               author={book.author}
+              isbn={book.isbn}
             />
           ))}
 

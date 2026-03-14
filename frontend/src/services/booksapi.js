@@ -34,3 +34,16 @@ export const fetchAllBooks = async()=>{
         console.error("Error fetching all books:", error);
     }
 }
+
+
+// /api/issuesissuebook
+
+export const issueBook = async (isbn) => {
+    try {
+        const response = await axios.post(`${API_URL}/issues/issuebook`, { isbn }, { withCredentials: true });
+        return response.data;   
+
+    } catch (error) {
+        console.error("Error issuing book:", error);
+    }
+}
