@@ -6,6 +6,7 @@ import authRouter from './routes/auth.routes.js';
 import cookieParser from "cookie-parser";
 import bookRouter from './routes/book.routes.js';
 import { createAdmin } from './utils/createAdmin.js';
+import issueRouter from './routes/issue.routes.js';
 
 const app = express();
 dotenv.config();
@@ -24,6 +25,7 @@ connectDB().then(() => {
 
 app.use('/api/auth', authRouter)
 app.use('/api/books', bookRouter)
+app.use('/api/issues', issueRouter)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

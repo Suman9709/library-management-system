@@ -58,8 +58,8 @@ export const getBooks = async (req, res) => {
 
 export const getBookById = async (req, res) => {
     try {
-        const { id } = req.params;
-        const book = await Book.findById(id);
+        const { isbn } = req.params;
+        const book = await Book.findOne({ isbn: isbn });
         if (!book) {
             return res.status(404).json({
                 message: "Book not found"
@@ -81,7 +81,8 @@ export const getBookById = async (req, res) => {
 
 export const deleteBook = async (req, res) => {
     try {
-        const book = await Book.findById(req.params.id);
+        const { isbn } = req.params;
+        const book = await Book.findOne({ isbn: isbn });
 
         if (!book) {
             return res.status(404).json({
@@ -102,3 +103,23 @@ export const deleteBook = async (req, res) => {
         });
     }
 }
+
+
+export const fetchBooksByCategory = async (req, res) => {
+    try {
+        const { category } = req.params;
+        const books = await Book.find({ category: category });
+
+        res.status(200).json({
+            success: true,
+            books
+        });
+    } catch (error) {
+        console.error("Error fetching books by category:", error);
+        res.status(500).json({
+            message: "Server error while fetching books by category"
+        });
+    }
+
+}
+
