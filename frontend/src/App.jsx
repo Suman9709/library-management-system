@@ -1,11 +1,9 @@
-import React from 'react'
+import React from "react";
+import { RouterProvider } from "react-router-dom";
+import router from "./AppRoutes";
 
 const App = () => {
-  return (
-    <div className='text-4xl'> 
-    <h1 className="text-4xl font-bold text-blue-500">Tailwind is working 🚀</h1>
-    </div>
-  )
-}
+  return <RouterProvider router={router} />;
+};
 
-export default App
+export default App;

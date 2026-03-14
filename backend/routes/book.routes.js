@@ -1,6 +1,6 @@
 import express from 'express';
 import { isAdmin, verifyJWT } from '../middleware/verifyJWT.js';
-import { addBook, deleteBook, fetchBooksByCategory, getBookById, getBooks } from '../controller/book.controller.js';
+import { addBook, deleteBook, fetchBooksByCategory, getBookById, getBooks, totalBook } from '../controller/book.controller.js';
 
 const bookRouter = express.Router();
 
@@ -9,6 +9,7 @@ bookRouter.get('/getbooks', verifyJWT, getBooks)
 bookRouter.get('/getbook/:isbn', verifyJWT, getBookById)
 bookRouter.delete('/deletebook/:isbn', verifyJWT, isAdmin, deleteBook)
 bookRouter.get('/fetchbookbycategory/:category', verifyJWT, fetchBooksByCategory)
+bookRouter.get('/totalbooks', verifyJWT, totalBook)
 
 
 export default bookRouter;

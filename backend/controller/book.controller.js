@@ -123,3 +123,20 @@ export const fetchBooksByCategory = async (req, res) => {
 
 }
 
+
+export const totalBook = async (req, res) => {
+    try {
+        const totalBooks = await Book.countDocuments();
+        res.status(200).json({
+            success: true,
+            data: totalBooks,
+            message: "Total book count fetched successfully"
+        });
+    } catch (error) {
+        console.error("Error fetching total book count:", error);
+        res.status(500).json({
+            message: "Server error while fetching total book count"
+        });
+    }
+}
+

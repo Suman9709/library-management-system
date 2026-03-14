@@ -78,3 +78,34 @@ export const logout = async (req, res) => {
         res.status(500).json({ message: "Internal server error", error: error.message });
     }
 }
+
+
+export const userProfile = async(req, res)=>{
+    try {
+        const user = req.user;
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json({
+            success: true,
+            data: user,
+            message: "User profile fetched successfully"
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+}
+
+
+export const totalUser = async(req, res)=>{
+    try {
+        const count = await User.countDocuments();
+        res.status(200).json({
+            success: true,
+            data: count,
+            message: "Total user count fetched successfully"
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+}
