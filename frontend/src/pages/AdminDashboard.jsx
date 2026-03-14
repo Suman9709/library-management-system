@@ -30,7 +30,7 @@ const AdminDashboard = () => {
     },
     {
       title: "Issued Books",
-      value: issuedLoading ? "..." : issuedData?.data?.length || 0,
+      value: issuedLoading ? "..." : issuedData?.issues?.length || 0,
       color: "bg-green-500",
     },
     {
@@ -43,7 +43,7 @@ const AdminDashboard = () => {
       value:
         booksLoading || issuedLoading
           ? "..."
-          : (booksData?.data || 0) - (issuedData?.data?.length || 0),
+          : (booksData?.data || 0) - (issuedData?.issues?.length || 0),
       color: "bg-orange-500",
     },
   ];

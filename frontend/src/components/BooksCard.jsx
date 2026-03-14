@@ -33,8 +33,21 @@ const BooksCard = ({ title, author, isbn }) => {
           onClick={handleIssue}
           disabled={issueMutation.isPending}
         >
-          {isAdmin ? "Issue Book" : "Get Book"}
+          {issueMutation.isPending
+            ? "Issuing..."
+            : isAdmin
+            ? "Issue Book"
+            : "Get Book"}
         </Button>
+
+        {issueMutation.isSuccess && (
+          <p className="text-green-600 text-sm mt-1">Book issued successfully!</p>
+        )}
+        {issueMutation.isError && (
+          <p className="text-red-600 text-sm mt-1">
+            {issueMutation.error?.message || "Failed to issue book."}
+          </p>
+        )}
       </div>
     </div>
   );

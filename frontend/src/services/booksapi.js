@@ -44,6 +44,7 @@ export const issueBook = async (isbn) => {
         return response.data;   
 
     } catch (error) {
-        console.error("Error issuing book:", error);
+        const message = error.response?.data?.message || "Error issuing book";
+        throw new Error(message);
     }
 }
