@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { issueBook } from "../services/booksapi";
+import { issuingBook } from "../services/booksapi";
 
 export const useIssueBooks = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: issueBook,
+    mutationFn: issuingBook,
 
     onSuccess: () => {
       // refetch dashboard data

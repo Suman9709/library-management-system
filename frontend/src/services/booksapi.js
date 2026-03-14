@@ -38,12 +38,22 @@ export const fetchAllBooks = async()=>{
 
 // /api/issuesissuebook
 
-export const issueBook = async (isbn) => {
+export const issuingBook = async (isbn) => {
     try {
         const response = await axios.post(`${API_URL}/issues/issuebook`, { isbn }, { withCredentials: true });
         return response.data;   
 
     } catch (error) {
         console.error("Error issuing book:", error);
+    }
+}
+
+
+export const fetchBooksByCategory = async (category) => {
+    try {
+        const response = await axios.get(`${API_URL}/books/fetchbookbycategory/${category}`, { withCredentials: true });
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching books by category:", error);
     }
 }

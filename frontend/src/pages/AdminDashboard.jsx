@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAllBooks, issuedBooks, totalBooks } from "../services/booksapi";
+import {
+  fetchAllBooks,
+  issuedBooks,
+  totalBooks,
+  fetchBooksByCategory,
+} from "../services/booksapi";
 import { totalUser } from "../services/authApi";
 import BooksCard from "../components/BooksCard";
 
-
 const AdminDashboard = () => {
+  const [category, setCategory] = useState("");
 
   const { data: booksData, isLoading: booksLoading } = useQuery({
     queryKey: ["totalBooks"],
@@ -17,9 +22,23 @@ const AdminDashboard = () => {
     queryFn: issuedBooks,
   });
 
+
   const { data: usersData, isLoading: usersLoading } = useQuery({
     queryKey: ["totalUsers"],
     queryFn: totalUser,
+  });
+
+
+  const { data: allBooksData, isLoading: booksListLoading } = useQuery({
+    queryKey: ["allBooks"],
+    queryFn: fetchAllBooks,
+  });
+
+
+  const { data: categoryBooks, isLoading: categoryLoading } = useQuery({
+    queryKey: ["booksByCategory", category],
+    queryFn: () => fetchBooksByCategory(category),
+    enabled: !!category,
   });
 
   const stats = [
@@ -48,13 +67,14 @@ const AdminDashboard = () => {
     },
   ];
 
-  const { data: allBooksData, isLoading: booksListLoading } = useQuery({
-    queryKey: ["allBooks"],
-    queryFn: fetchAllBooks,
-  });
+
+  const booksToShow = category
+    ? categoryBooks?.books
+    : allBooksData?.books;
 
   return (
     <div className="space-y-8">
+
 
       <div>
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
@@ -64,7 +84,6 @@ const AdminDashboard = () => {
           Manage your library system
         </p>
       </div>
-
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
@@ -84,15 +103,41 @@ const AdminDashboard = () => {
 
       </div>
 
+      <div className="flex items-center gap-4">
+
+        <select
+          className="border p-2 rounded-md"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="">All Categories</option>
+          <option value="Programming">Programming</option>
+          <option value="Fiction">Fiction</option>
+          <option value="Science">Science</option>
+          <option value="SelfHelp">Self Help</option>
+        </select>
+
+        <button
+          className="bg-gray-500 text-white px-3 py-1 rounded"
+          onClick={() => setCategory("")}
+        >
+          Reset
+        </button>
+
+      </div>
 
       <div>
-        <h2 className="text-xl font-semibold mb-4">Library Books</h2>
+        <h2 className="text-xl font-semibold mb-4">
+          Library Books
+        </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-          {booksListLoading && <p>Loading books...</p>}
+          {(booksListLoading || categoryLoading) && (
+            <p>Loading books...</p>
+          )}
 
-          {allBooksData?.books?.map((book) => (
+          {booksToShow?.map((book) => (
             <BooksCard
               key={book._id}
               title={book.title}
